@@ -1,7 +1,7 @@
 const whitespace = [" ", "\n", "\t"];
 const digits = "0123456789";
 
-enum TokenType { number, plus, minus, multiply, divide, lparen, rparen }
+enum TokenType { number, plus, minus, multiply, divide, power, lparen, rparen }
 
 class Token {
   TokenType type;

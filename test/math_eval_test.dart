@@ -48,6 +48,16 @@ void main() {
       expect(res.value, 0.1341421736158578);
     });
   });
+  group("Power", () {
+    test('(((2^2)*3+2*2)/2)^2', () {
+      Number res = eval("(((2^2)*3+2*2)/2)^2");
+      expect(res.value, 64.0);
+    });
+    test('(((2^2)*(3+2)*2)/2)^2', () {
+      Number res = eval("(((2^2)*(3+2)*2)/2)^2");
+      expect(res.value, 400);
+    });
+  });
   group("Mix", () {
     test('(22*3+7)/2-1', () {
       Number res = eval("(22*3+7)/2-1");

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:math_eval/values.dart';
 
 import 'nodes.dart';
@@ -35,6 +37,9 @@ class Lexer {
       } else if (_currentChar == "/") {
         _advance();
         yield Token(TokenType.divide);
+      } else if (_currentChar == "^") {
+        _advance();
+        yield Token(TokenType.power);
       } else if (_currentChar == "(") {
         _advance();
         yield Token(TokenType.lparen);
@@ -134,8 +139,20 @@ class Parser {
     return res;
   }
 
-  // Captures Numbers, UnaryMinus and Params
+  //Captures Power
   Node factor() {
+    Node res = atom();
+
+    while (_currentToken != null && _currentToken!.type == TokenType.power) {
+      _advance();
+      res = BinOpNode(res, "^", atom());
+    }
+
+    return res;
+  }
+
+  // Captures Numbers, UnaryMinus and Params
+  Node atom() {
     Token number = _currentToken!;
 
     if (_currentToken!.type == TokenType.lparen) {
@@ -199,6 +216,8 @@ class Interpreter {
       } on Exception {
         throw Exception("Runtime Error");
       }
+    } else if (node.op == "^") {
+      return Number(pow(visit(node.a).value, visit(node.b).value).toDouble());
     }
     return Number(0);
   }
